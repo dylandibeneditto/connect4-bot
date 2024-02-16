@@ -32,7 +32,7 @@ class Board {
 
     bool position[(HEIGHT + 1) * WIDTH] = {0};
     bool mask[(HEIGHT + 1) * WIDTH] = {0};
-    // 0 - yellow, 1 - red
+    // 0 - x, 1 - o
     bool turn = 0;
     bool canMove(int pos) { return mask[(WIDTH * pos) + HEIGHT] == 0 ? 1 : 0; }
 
@@ -44,7 +44,7 @@ class Board {
             }
             mask[(WIDTH * pos) + h] = 1;
 
-            if (turn == 0) {  // if turn is yellow
+            if (turn == 0) {  // if turn is x
                 position[(WIDTH * pos) + h] = 1;
             }
 
@@ -65,16 +65,29 @@ class Board {
         for (int i = 0; i < 4; i++) {
             int count = 0;
             int val = index;
-            while (mask[val + kernel[i]] == 1) {
-                val += kernel[i];
-                count++;
+            if (turn == 1) {  // if turn will be x
+                while (mask[val + kernel[i]] == 1) {
+                    val += kernel[i];
+                    count++;
+                }
+                val = index;
+                while (mask[val - kernel[i]] == 1) {
+                    val -= kernel[i];
+                    count++;
+                }
+            } else {  // if turn will be o
+                while (position[val + kernel[i]] - mask[val + kernel[i]] == 1) {
+                    val += kernel[i];
+                    count++;
+                }
+                val = index;
+                while (position[val + kernel[i]] - mask[val - kernel[i]] == 1) {
+                    val -= kernel[i];
+                    count++;
+                }
             }
-            val = index;
-            while (mask[val - kernel[i]] == 1) {
-                val -= kernel[i];
-                count++;
-            }
-            if (count >= 4) {
+            cout << count << ", " << kernel[i]<< endl;
+            if (count >= 3) { // count will be three in a row as the kernel center is never factored
                 return 1;
             }
         }
@@ -91,7 +104,7 @@ class Board {
                 r++;
             }
         }
-        return rand()%WIDTH;
+        return rand() % WIDTH;
     }
 };
 }  // namespace B

@@ -23,7 +23,7 @@ int main() {
                 board.move(move - 1);
                 board.move(board.bestMove());
             } else {
-                cout<<"\n\n\n\nYou win!";
+                cout<<"\nYou win!";
                 return 0;
             }
         } else {
