@@ -65,7 +65,7 @@ class Board {
         for (int i = 0; i < 4; i++) {
             int count = 0;
             int val = index;
-            if (turn == 1) {  // if turn will be x
+            if (turn == 0) {  // if turn will be x
                 while (mask[val + kernel[i]] == 1) {
                     val += kernel[i];
                     count++;
