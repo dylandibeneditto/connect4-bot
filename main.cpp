@@ -18,7 +18,17 @@ int main() {
         cout << "1234567\n";
         cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         cin >> move;
-        board.move(move - 1);
+        if (board.canMove(move - 1) == 1) {
+            if (board.isWinningMove(move - 1) == 0) {
+                board.move(move - 1);
+                board.move(board.bestMove());
+            } else {
+                cout<<"\n\n\n\nYou win!";
+                return 0;
+            }
+        } else {
+            cout << endl;
+        }
     }
 
     return 0;
