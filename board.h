@@ -68,36 +68,34 @@ class Board {
             int val = index;
             if (turn == 0) {  // if turn will be x
                 while (mask[val + kernel[i]] == 1) {
-                    if(val+kernel[i]>WIDTH*(HEIGHT+1))
+                    if (((val + kernel[i]) - 1) % 7 == 0)
                         break;
-                    if(val)
                     val += kernel[i];
                     count++;
                 }
                 val = index;
                 while (mask[val - kernel[i]] == 1) {
-                    if(val-kernel[i]<0)
+                    if (((val - kernel[i]) - 1) % 7 == 0)
                         break;
                     val -= kernel[i];
                     count++;
                 }
             } else {  // if turn will be o
                 while (position[val + kernel[i]] - mask[val + kernel[i]] == 1) {
-                    if(val+kernel[i]>WIDTH*(HEIGHT+1))
+                    if (((val + kernel[i]) - 1) % 7 == 0)
                         break;
                     val += kernel[i];
                     count++;
                 }
                 val = index;
                 while (position[val + kernel[i]] - mask[val - kernel[i]] == 1) {
-                    if(val-kernel[i]<0)
+                    if (((val - kernel[i]) - 1) % 7 == 0)
                         break;
                     val -= kernel[i];
                     count++;
                 }
             }
             if (count >= 3) {  // count will be three in a row as the kernel center is never factored
-                cout << kernel[i];
                 return true;
             }
         }
@@ -105,32 +103,30 @@ class Board {
         return false;
     }
 
-    int nmax(const Board& P, int alpha, int beta) {
-        if (P.moves == WIDTH * HEIGHT) // draw
+    int nmax(const Board P, int alpha, int beta) {
+        if (P.moves == WIDTH * HEIGHT)  // draw
             return 0;
 
-        for (int x = 0; x < WIDTH; x++) { // win
-            cout << P.moves;
+        for (int x = 0; x < WIDTH; x++) {  // win
             if (P.isWinningMove(x))
                 return (WIDTH * HEIGHT + (1 - P.moves)) / 2;
         }
 
-        int max = (WIDTH * HEIGHT - 1 - P.moves) / 2; // cant win immediately
+        int max = (WIDTH * HEIGHT - 1 - P.moves) / 2;  // cant win immediately
         if (beta > max) {
-            beta = max;                      
-            if (alpha >= beta) return beta;  
+            beta = max;
+            if (alpha >= beta) return beta;
         }
 
-        for (int x = 0; x < WIDTH; x++) // compute all possible moves
+        for (int x = 0; x < WIDTH; x++)  // compute all possible moves
             if (P.canMove(x)) {
                 Board B2(P.position, P.mask, P.moves, P.turn);
                 B2.move(x);
                 int score = -nmax(B2, -beta, -alpha);
 
                 if (score >= beta) return score;
-                if (score > alpha) alpha = score;                                                   
+                if (score > alpha) alpha = score;
             }
-        cout << endl;
         return alpha;
     }
 

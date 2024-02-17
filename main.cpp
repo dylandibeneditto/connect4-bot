@@ -18,13 +18,13 @@ void visualize(Board board) {
 }
 
 int main() {
+    cout << "DEBUG";
     Board board;
     int move;
     for (int i = 0; i < 100; i++) {
         visualize(board);
         cin >> move;
         if (board.canMove(move - 1)) {
-            cout << "DEBUG";
             if (!board.isWinningMove(move - 1)) {
                 board.move(move - 1);
                 board.move(board.bestMove(board));
