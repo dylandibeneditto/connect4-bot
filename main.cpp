@@ -58,7 +58,7 @@ void printBoard(vector<vector<int>> &b) {
  * *ASSUMES POSITION IS VALID*
  */
 void play(vector<vector<int>> &b, int col, bool t) {
-    unsigned int h = HEIGHT-1;  // value that starts at height
+    unsigned int h = HEIGHT;  // value that starts at height
     while (b[col][h]!=0) {  // decreases the value every time the 
         h--;
     }
