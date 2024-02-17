@@ -6,15 +6,15 @@
 
 using namespace std;
 
-unsigned int WIDTH = 7; // width of the board
-unsigned int HEIGHT = 6; // height of the board
-bool PLAYER = 0; // players turn
-bool COMPUTER = 1; // computers turn
-unsigned int MAX_DEPTH = 5; // depth of the move scoring algorithm
+unsigned int WIDTH = 7;  // width of the board
+unsigned int HEIGHT = 6;  // height of the board
+bool PLAYER = 0;  // players turn
+bool COMPUTER = 1;  // computers turn
+unsigned int MAX_DEPTH = 5;  // depth of the move scoring algorithm
 
-bool gameOver = false; // whether game has been won (or lost)
-unsigned int turns = 0; // move count of the game
-bool turn = 0; // who's turn it is
+bool gameOver = false;  // whether game has been won (or lost)
+unsigned int turns = 0;  // move count of the game
+bool turn = 0;  // who's turn it is
 
 // board will be called like coordinate grid system with origin in the top left
 // cell reference -> board[X VALUE][Y VALUE]
@@ -27,7 +27,7 @@ bool turn = 0; // who's turn it is
     .     .     .     .     .     .     [6][5]
 */
 
-vector<vector<int>> board(WIDTH, vector<int>(HEIGHT)); // 2D array of game board
+vector<vector<int>> board(WIDTH, vector<int>(HEIGHT));  // 2D array of game board
 
 /*
  * prints the passed board and outputs grid display
@@ -38,14 +38,15 @@ void printBoard(vector<vector<int>> &b) {
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
             switch(b[y][x]) {
-                case 0: cout<<" "; break; // empty cell
-                case 1: cout<<"x"; break; // x cell (player with first move)
-                case 2: cout<<"o"; break; // o cell (player with second move)
+                case 0: cout<<" "; break;  // empty cell
+                case 1: cout<<"x"; break;  // x cell (player with first move)
+                case 2: cout<<"o"; break;  // o cell (player with second move)
             }
             cout<<" ";
         }
         cout<<endl;
     }
+    cout<<"1 2 3 4 5 6 7\n";
 }
 
 /*
@@ -53,21 +54,24 @@ void printBoard(vector<vector<int>> &b) {
  * @param b - 2D board array
  * @param col - column to drop
  * @param t - the current turn
+ * 
+ * *ASSUMES POSITION IS VALID*
  */
 void play(vector<vector<int>> &b, int col, bool t) {
-    unsigned int h = HEIGHT-1;
-    while (b[col][h]!=0) {
+    unsigned int h = HEIGHT-1;  // value that starts at height
+    while (b[col][h]!=0) {  // decreases the value every time the 
         h--;
     }
-    b[col][h] = t+1;
+    b[col][h] = t+1;  // sets the found value which is empty to the players turn
 }
 
 /*
  * runs gameloop of plays
  */
 void gameLoop() {
-    while (!gameOver) { // while not in terminal position
-        if(turn==PLAYER) {
+    printBoard(board);
+    while (!gameOver) {  // while not in terminal position
+        if(turn==PLAYER) {  // if the turn is the player
             int move;
             cout<<"move: ";
             cin >> move;
