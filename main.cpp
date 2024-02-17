@@ -16,21 +16,21 @@ unsigned int turns = 0; // move count of the game
 bool turn = 0; // who's turn it is
 
 // board will be called like coordinate grid system with origin in the top left
-// cell reference -> board[Y VALUE][X VALUE]
+// cell reference -> board[X VALUE][Y VALUE]
 /*
     [0][0].     .     .     .     .     .     
     .     .     .     .     .     .     .     
     .     .     .     .     .     .     .     
     .     .     .     .     .     .     .     
     .     .     .     .     .     .     .     
-    .     .     .     .     .     .     [5][6]
+    .     .     .     .     .     .     [6][5]
 */
 
-vector<vector<int>> board(HEIGHT, vector<int>(WIDTH)); // 2D array of game board
+vector<vector<int>> board(WIDTH, vector<int>(HEIGHT)); // 2D array of game board
 
 void printBoard(vector<vector<int>> &b) {
     system("clear");
-    b[0][1] = 1;
+    b[6][5] = 1;
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
             switch(b[x][y]) {
