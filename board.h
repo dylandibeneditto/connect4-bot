@@ -39,17 +39,16 @@ class Board {
     void move(int pos) {
         if (canMove(pos) == 1) {
             int h = 0;
-            while (mask[(WIDTH * pos) + h] == 1) {
+            while (position[(WIDTH * pos) + h] == 1) {
                 h++;
             }
-            mask[(WIDTH * pos) + h] = 1;
+            position[(WIDTH * pos) + h] = 1;
 
             if (turn == 0) {  // if turn is x
-                position[(WIDTH * pos) + h] = 1;
+                mask[(WIDTH * pos) + h] = 1;
             }
 
             turn = !turn;
-            cout << (turn == 0 ? "x's turn\n" : "o's turn\n");
         } else {
             cout << "invalid move!\n";
         }
@@ -86,8 +85,8 @@ class Board {
                     count++;
                 }
             }
-            cout << count << ", " << kernel[i]<< endl;
             if (count >= 3) { // count will be three in a row as the kernel center is never factored
+                cout<<kernel[i];
                 return 1;
             }
         }
@@ -99,6 +98,7 @@ class Board {
         int r = 0;
         while (r > WIDTH == 0) {
             if (isWinningMove(r) == 1) {
+                cout<<r;
                 return r;
             } else {
                 r++;

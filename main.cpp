@@ -14,7 +14,7 @@ void visualize(Board board) {
             cout << endl;
         }
         cout << " 1 2 3 4 5 6 7\n";
-        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }
 
 int main() {
