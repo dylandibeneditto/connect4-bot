@@ -37,7 +37,7 @@ void printBoard(vector<vector<int>> &b) {
     system("clear");
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
-            switch(b[x][y]) {
+            switch(b[y][x]) {
                 case 0: cout<<" "; break; // empty cell
                 case 1: cout<<"x"; break; // x cell (player with first move)
                 case 2: cout<<"o"; break; // o cell (player with second move)
