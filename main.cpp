@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -28,9 +29,12 @@ bool turn = 0; // who's turn it is
 
 vector<vector<int>> board(WIDTH, vector<int>(HEIGHT)); // 2D array of game board
 
+/*
+ * prints the passed board and outputs grid display
+ * @param b - 2D board array
+ */
 void printBoard(vector<vector<int>> &b) {
     system("clear");
-    b[6][5] = 1;
     for(int x = 0; x < WIDTH; x++) {
         for(int y = 0; y < HEIGHT; y++) {
             switch(b[x][y]) {
@@ -44,7 +48,40 @@ void printBoard(vector<vector<int>> &b) {
     }
 }
 
+/*
+ * "drops" players piece into the desired column
+ * @param b - 2D board array
+ * @param col - column to drop
+ * @param t - the current turn
+ */
+void play(vector<vector<int>> &b, int col, bool t) {
+    unsigned int h = HEIGHT-1;
+    while (b[col][h]!=0) {
+        h--;
+    }
+    b[col][h] = t+1;
+}
+
+/*
+ * runs gameloop of plays
+ */
+void gameLoop() {
+    while (!gameOver) { // while not in terminal position
+        if(turn==PLAYER) {
+            int move;
+            cout<<"move: ";
+            cin >> move;
+            play(board, move-1, PLAYER);
+            play(board, rand()%WIDTH, COMPUTER);
+            printBoard(board);
+        }
+    }
+} 
+
+/*
+ * main driver
+ */
 int main() {
-    printBoard(board);
+    gameLoop();
     return 0;
 }
