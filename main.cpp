@@ -65,7 +65,7 @@ void printBoard(vector<vector<int>> &b) {
  * ASSUMES POSITION IS VALID
  */
 unsigned int colValidHeight(vector<vector<int>> &b, unsigned int col) {
-    unsigned int h = HEIGHT - 1;  // value that starts at height
+    unsigned int h = HEIGHT-1;  // value that starts at height
     while (b[col][h] != 0) {      // decreases the value every time the
         h--;
     }
@@ -108,14 +108,14 @@ bool winningMove(vector<vector<int>> &b, bool p, int col) {
     const int kernel[4][2] = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}};  // velocity of search around searched index
     int h = colValidHeight(b, col);                              // valid position for drop
 
-    for (unsigned int i = 0; i < 4; i++) {                      // looping through all possible cases
+    for (unsigned int i = 0; i < 2; i++) {                      // looping through all possible cases
         unsigned int count = 1;                                 // counter for how many are in a row (starts at one because it counts the current square)
         int index[2] = {col + kernel[i][0], h + kernel[i][1]};  // current inspected index
 
         if (index[0] < WIDTH && index[1] < HEIGHT) {   // if kernel isnt going to push out of bounds
             while (b[index[0]][index[1]] == SEARCH) {  // while the index in the board array is equal to the player
-                index[0] += kernel[i][0];  // move along with search
-                index[1] += kernel[i][1];
+                index[0] = index[0] + kernel[i][0];  // move along with search
+                index[1] = index[1] + kernel[i][1];
                 count++;           // increase count
                 if (count >= 4) {  // if there are 4 in a row
                     return true;
@@ -130,8 +130,8 @@ bool winningMove(vector<vector<int>> &b, bool p, int col) {
             index[1] = h - kernel[i][1];
 
             while (b[index[0]][index[1]] == SEARCH) {  // while the index in the other direction is equal to the player
-                index[0] -= kernel[i][0];  // move along with search in other direction
-                index[1] -= kernel[i][1];
+                index[0] = index[0] - kernel[i][0];  // move along with search in other direction
+                index[1] = index[1] - kernel[i][1];
                 count++;           // increase count
                 if (count >= 4) {  // if there are 4 in a row
                     return true;
@@ -140,7 +140,6 @@ bool winningMove(vector<vector<int>> &b, bool p, int col) {
                     break;
             }
         }
-        cout<<count;
     }
     return false;  // not a winning move
 }
@@ -149,17 +148,17 @@ bool winningMove(vector<vector<int>> &b, bool p, int col) {
  * finds if the the player has any winning moves
  * @param b - 2D board array
  * @param p - player which will be searched for
- * @return - TRUE if player has winning move, FALSE if not
+ * @return - column with winning move, -1 if there isn't a winning move
  *
  * ASSUMES POSITION IS VALID
  */
-bool hasWinningMove(vector<vector<int>> &b, bool p) {
+int hasWinningMove(vector<vector<int>> &b, bool p) {
     for (unsigned int i = 0; i < WIDTH; i++) {  // loops through all columns
         if (winningMove(b, p, i)) {
-            return true;
+            return i;
         }
     }
-    return false;  // no winning moves in position
+    return -1;  // no winning moves in position
 }
 
 /*
@@ -187,6 +186,12 @@ void gameLoop() {
             int cMove = rand() % WIDTH;        // random number over width, placeholder until actual algorithm
             while (!colValid(board, cMove)) {  // if the random number is valid, if not re-randomize it
                 cMove = rand() % WIDTH;
+            }
+            if (winningMove(board, COMPUTER, cMove)) {
+                play(board, cMove, COMPUTER);
+                printBoard(board);
+                cout << "CPU WINS!";
+                break;
             }
             play(board, cMove, COMPUTER);
 
