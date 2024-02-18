@@ -7,11 +7,11 @@
 
 using namespace std;
 
-unsigned int WIDTH = 7;      // width of the board
-unsigned int HEIGHT = 6;     // height of the board
-bool PLAYER = 0;             // players turn
-bool COMPUTER = 1;           // computers turn
-unsigned int MAX_DEPTH = 5;  // depth of the move scoring algorithm
+const unsigned int WIDTH = 7;      // width of the board
+const unsigned int HEIGHT = 6;     // height of the board
+const bool PLAYER = 0;             // players turn
+const bool COMPUTER = 1;           // computers turn
+const unsigned int MAX_DEPTH = 5;  // depth of the move scoring algorithm
 
 bool gameOver = false;   // whether game has been won (or lost)
 unsigned int turns = 0;  // move count of the game
@@ -28,16 +28,16 @@ bool turn = 0;           // who's turn it is
     .     .     .     .     .     .     [6][5]
 */
 
-vector<vector<int>> board(WIDTH, vector<int>(HEIGHT));  // 2D array of game board
+vector<vector<unsigned int>> board(WIDTH, vector<int>(HEIGHT));  // 2D array of game board
 
 /*
  * prints the passed board and outputs grid display
  * @param b - 2D board array
  */
-void printBoard(vector<vector<int>> &b) {
+void printBoard(vector<vector<unsigned int>> &b) {
     system("clear");
-    for (int x = 0; x < HEIGHT; x++) {
-        for (int y = 0; y < WIDTH; y++) {
+    for (unsigned int y = 0; y < HEIGHT; y++) {
+        for (unsigned int x = 0; x < WIDTH; x++) {
             switch (b[y][x]) {
                 case 0:
                     cout << " ";
@@ -57,19 +57,32 @@ void printBoard(vector<vector<int>> &b) {
 }
 
 /*
+ * finds valid height for next piece to be dropped
+ * @param b - 2D board array
+ * @param col - column to inspect
+ * @return - integer value of the y position of the empty space
+ * 
+ * ASSUMES POSITION IS VALID
+ */
+unsigned int colValidHeight(vector<vector<unsigned int>> &b, unsigned int col) {
+    unsigned int h = HEIGHT-1;  // value that starts at height
+    while (b[col][h] != 0) {  // decreases the value every time the
+        h--;
+    }
+
+    return h;
+}
+
+/*
  * "drops" players piece into the desired column
  * @param b - 2D board array
  * @param col - column to drop
  * @param t - the current turn
  *
- * *ASSUMES POSITION IS VALID*
+ * ASSUMES POSITION IS VALID
  */
-void play(vector<vector<int>> &b, int col, bool t) {
-    unsigned int h = HEIGHT-1;  // value that starts at height
-    while (b[col][h] != 0) {  // decreases the value every time the
-        h--;
-    }
-    b[col][h] = t + 1;  // sets the found value which is empty to the players turn
+void play(vector<vector<unsigned int>> &b, unsigned int col, bool t) {
+    b[col][colValidHeight(b,col)] = t + 1;  // sets the found value which is empty to the players turn
 }
 
 /*
@@ -78,16 +91,17 @@ void play(vector<vector<int>> &b, int col, bool t) {
  * @param col - column which is being checked
  * @return - TRUE if column is able to have another element dropped, FALSE if column is full
  */
-bool colValid(vector<vector<int>> &b, int col) {
+bool colValid(vector<vector<unsigned int>> &b, int col) {
     return b[col][0] == 0;
 }
+
 
 /*
  * runs gameloop of plays
  */
 void gameLoop() {
     printBoard(board);
-    while (!gameOver) {        // while not in terminal position
+    while (!gameOver) {  // while not in terminal position
         if (turn == PLAYER) {  // if the turn is the player
             int move;
             cout << "move: ";
