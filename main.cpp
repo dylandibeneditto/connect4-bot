@@ -65,7 +65,7 @@ void printBoard(vector<vector<int>> &b) {
  * ASSUMES POSITION IS VALID
  */
 unsigned int colValidHeight(vector<vector<int>> &b, unsigned int col) {
-    unsigned int h = HEIGHT-1;  // value that starts at height
+    unsigned int h = HEIGHT - 1;  // value that starts at height
     while (b[col][h] != 0) {      // decreases the value every time the
         h--;
     }
@@ -114,7 +114,7 @@ bool winningMove(vector<vector<int>> &b, bool p, int col) {
 
         if (index[0] < WIDTH && index[1] < HEIGHT) {   // if kernel isnt going to push out of bounds
             while (b[index[0]][index[1]] == SEARCH) {  // while the index in the board array is equal to the player
-                index[0] = index[0] + kernel[i][0];  // move along with search
+                index[0] = index[0] + kernel[i][0];    // move along with search
                 index[1] = index[1] + kernel[i][1];
                 count++;           // increase count
                 if (count >= 4) {  // if there are 4 in a row
@@ -130,7 +130,7 @@ bool winningMove(vector<vector<int>> &b, bool p, int col) {
             index[1] = h - kernel[i][1];
 
             while (b[index[0]][index[1]] == SEARCH) {  // while the index in the other direction is equal to the player
-                index[0] = index[0] - kernel[i][0];  // move along with search in other direction
+                index[0] = index[0] - kernel[i][0];    // move along with search in other direction
                 index[1] = index[1] - kernel[i][1];
                 count++;           // increase count
                 if (count >= 4) {  // if there are 4 in a row
